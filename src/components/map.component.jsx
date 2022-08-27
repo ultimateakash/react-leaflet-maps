@@ -14,7 +14,7 @@ Leaflet.Icon.Default.mergeOptions({
 });
 
 const MapComponent = () => { 
-    
+    const mapRef = useRef();
     const zoom = 16;
     const containerStyle = {
         width: "100%",
@@ -67,7 +67,7 @@ const MapComponent = () => {
         return new Promise((resolve, reject) => {
             geocoder.reverse(
                 { lat, lng },
-                zoom,
+                mapRef.current.getZoom(),
                 results => results.length ? resolve(results[0].name) : reject(null)
             );
         })
@@ -79,6 +79,7 @@ const MapComponent = () => {
             center={center}
             zoom={zoom}
             scrollWheelZoom={false} 
+            ref={mapRef}
         >
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
